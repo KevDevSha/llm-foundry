@@ -9,6 +9,8 @@ on:
     - main
     - release/**
   workflow_dispatch:
+permissions:
+  contents: read
 # Cancel old runs when a new commit is pushed to the same branch if not on main or dev
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -40,7 +42,7 @@ jobs:
         pytest_markers: ${{ matrix.markers }}
         python_version: 3.9
         gpu_num: 1
-        mcloud_api_key: ${{ secrets.MCLOUD_API_KEY }}
+        mcloud_api_key: ${{ env.MCLOUD_API_KEY }}
         ci_repo_gpu_test_ref: ${{ matrix.ci_repo_gpu_test_ref }}
   pytest-gpu-2:
     name: ${{ matrix.name }}
